@@ -1,0 +1,17 @@
+
+# macOS ###
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Dependency directories
+node_modules/
+
+#vsCode
+.vscode
+
+#dist folder
+dist/
