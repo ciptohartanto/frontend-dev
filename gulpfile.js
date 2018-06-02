@@ -6,7 +6,8 @@ var prefix = require('gulp-autoprefixer');
 var del = require('del');
 // runSequence is to make sure that each task is done before running the next task that is in the queue
 var runSequence = require('run-sequence'); 
-
+var spritesmith = require('gulp.spritesmith');
+ 
 
 // variables of base
 var base = {
@@ -18,6 +19,7 @@ var base = {
 var paths = {
   scripts: ['assets/js/'],
   images: ['assets/img/'],
+  sprite: ['assets/img/sprite/'],
   sass: ['sass/'],
   css: ['assets/css/'],
   jade: ['jade/']
@@ -60,10 +62,16 @@ gulp.task('sass', function () {
 });
 
 
+gulp.task('sprite', function () {
+  var spriteData = gulp.src(base.source + 'sprite/*.png').pipe(spritesmith({
+    imgName: '../img/sprite.png',
+    cssName: 'sprite.sass'
+  }));
+   spriteData.img.pipe(gulp.dest(base.source + paths.images));
+   spriteData.css.pipe(gulp.dest(base.source + paths.sass + 'tools/'));
+});
 
 
-// images: ['assets/images/'],
-// scripts: ['assets/js/'],
 
 // Serve is starting BrowserSync
 // it's also watching Sass, Jade, and assets/
@@ -73,6 +81,7 @@ gulp.task('serve', function () {
   });
   gulp.watch(base.source + paths.sass + "**/*.sass", ['sass']);
   gulp.watch(base.source + paths.jade + "*.jade", ['jade']);
+  gulp.watch(base.source + paths.sprite + '*.png', ['sprite']);
   gulp.watch(base.source + paths.images + '**/*', ['copy-assets']);
   gulp.watch(base.source + paths.scripts + '**/*', ['copy-assets']);
   gulp.watch(base.source + paths.css + "**/*.sass").on('change', browserSync.reload);
@@ -86,6 +95,6 @@ gulp.task('serve', function () {
 
 // we need 'default' task in order to initialize Gulp
 gulp.task('default', function() {
-  runSequence('cleanDist', 'copy-assets',  'sass', 'jade', 'serve');
+  runSequence('cleanDist', 'copy-assets',  'sass', 'jade', 'sprite', 'serve');
 });
 
