@@ -11,5 +11,6 @@
     "gulp.spritesmith": "^6.9.0",
     "run-sequence": "^2.2.1",
     "sass-convert": "^0.5.2"
-  }
+  },
+  "dependencies": {}
 }

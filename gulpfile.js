@@ -21,7 +21,7 @@ var base = {
 var paths = {
   scripts: ['assets/js/'],
   images: ['assets/img/'],
-  sprite: ['assets/img/sprite/'],
+  sprite: ['sprite/'],
   sass: ['sass/'],
   scss: ['scss/'],
   css: ['assets/css/'],
@@ -80,9 +80,9 @@ gulp.task('sass2SCSS', function () {
 });
 
 gulp.task('sprite', function () {
-  var spriteData = gulp.src(base.source + 'sprite/*.png').pipe(spritesmith({
+  var spriteData = gulp.src(base.source + paths.sprite + '*.png').pipe(spritesmith({
     imgName: '../img/sprite.png',
-    cssName: 'sprite.sass',
+    cssName: '_sprite.sass',
     padding: 4
   }));
   spriteData.img.pipe(gulp.dest(base.source + paths.images));
@@ -107,6 +107,7 @@ gulp.task('serve', function () {
   gulp.watch(base.source + paths.jade + "*.jade").on('change', browserSync.reload);
   gulp.watch(base.source + paths.images + "**/*").on('change', browserSync.reload);
   gulp.watch(base.source + paths.scripts + '**/*').on('change', browserSync.reload);
+  gulp.watch(base.source + paths.sprite + '*.png').on('change', browserSync.reload);
 
 });
 
@@ -114,6 +115,6 @@ gulp.task('serve', function () {
 
 // we need 'default' task in order to initialize Gulp
 gulp.task('default', function () {
-  runSequence('cleanDist', 'cleanSCSS', 'copy-assets', 'sass', 'jade', 'sprite', 'serve');
+  runSequence('cleanDist', 'cleanSCSS','sprite',  'copy-assets', 'jade', 'serve');
 });
 

@@ -1,0 +1,47 @@
+
+
+$new-spritesheet-width: ($spritesheet-width / 2) // calculates new width for background-size
+$new-spritesheet-height: ($spritesheet-height / 2) // calculates new height for background-size
+
+// resizes to 50% of icon's width
+@mixin sprite-width($sprite)
+  width: nth($sprite, 5) / 2
+
+  // resizes to 50% of icon's height
+@mixin sprite-height($sprite)
+  height: nth($sprite, 6) / 2
+
+
+@mixin sprite-position($sprite)
+  $sprite-offset-x: null // needs to be null because we're using @if
+  $sprite-offset-y: null // needs to be null because we're using @if
+
+
+  // if sprite data # 3 = 0 then ...
+  @if nth($sprite, 3)!= 0
+    $sprite-offset-x: nth($sprite, 3) / 2
+    
+
+  @if nth($sprite, 3) == 0
+    $sprite-offset-x: nth($sprite, 3)
+
+
+  @if nth($sprite, 4) != 0
+    $sprite-offset-y: nth($sprite, 4) / 2
+
+
+  @if nth($sprite, 4) == 0
+    $sprite-offset-y: nth($sprite, 4)
+
+  // eventually we want the new background positions of each icon
+  background-position: $sprite-offset-x $sprite-offset-y
+
+@mixin sprite($sprite)
+  @include sprite-image($sprite)
+  @include sprite-position($sprite)
+  @include sprite-width($sprite)
+  @include sprite-height($sprite)
+  background-size: $new-spritesheet-width $new-spritesheet-height
+
+
+@include sprites($spritesheet-sprites)

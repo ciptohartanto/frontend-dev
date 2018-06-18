@@ -1,0 +1,132 @@
+// SASS variables are information about icon's compiled state, stored under its original file name
+//
+// .icon-home
+//   width: $icon-home-width
+//
+// The large array-like variables contain all information about a single icon
+// $icon-home: x y offset_x offset_y width height total_width total_height image_path
+//
+// At the bottom of this section, we provide information about the spritesheet itself
+// $spritesheet: width height image $spritesheet-sprites
+$chat-name: 'chat'
+$chat-x: 68px
+$chat-y: 34px
+$chat-offset-x: -68px
+$chat-offset-y: -34px
+$chat-width: 24px
+$chat-height: 24px
+$chat-total-width: 176px
+$chat-total-height: 98px
+$chat-image: '../img/sprite.png'
+$chat: (68px, 34px, -68px, -34px, 24px, 24px, 176px, 98px, '../img/sprite.png', 'chat', )
+$edit-name: 'edit'
+$edit-x: 96px
+$edit-y: 34px
+$edit-offset-x: -96px
+$edit-offset-y: -34px
+$edit-width: 24px
+$edit-height: 24px
+$edit-total-width: 176px
+$edit-total-height: 98px
+$edit-image: '../img/sprite.png'
+$edit: (96px, 34px, -96px, -34px, 24px, 24px, 176px, 98px, '../img/sprite.png', 'edit', )
+$employee-name: 'employee'
+$employee-x: 124px
+$employee-y: 34px
+$employee-offset-x: -124px
+$employee-offset-y: -34px
+$employee-width: 24px
+$employee-height: 24px
+$employee-total-width: 176px
+$employee-total-height: 98px
+$employee-image: '../img/sprite.png'
+$employee: (124px, 34px, -124px, -34px, 24px, 24px, 176px, 98px, '../img/sprite.png', 'employee', )
+$employee2x-name: 'employee2x'
+$employee2x-x: 0px
+$employee2x-y: 34px
+$employee2x-offset-x: 0px
+$employee2x-offset-y: -34px
+$employee2x-width: 64px
+$employee2x-height: 64px
+$employee2x-total-width: 176px
+$employee2x-total-height: 98px
+$employee2x-image: '../img/sprite.png'
+$employee2x: (0px, 34px, 0px, -34px, 64px, 64px, 176px, 98px, '../img/sprite.png', 'employee2x', )
+$logoa-name: 'logoa'
+$logoa-x: 0px
+$logoa-y: 0px
+$logoa-offset-x: 0px
+$logoa-offset-y: 0px
+$logoa-width: 176px
+$logoa-height: 30px
+$logoa-total-width: 176px
+$logoa-total-height: 98px
+$logoa-image: '../img/sprite.png'
+$logoa: (0px, 0px, 0px, 0px, 176px, 30px, 176px, 98px, '../img/sprite.png', 'logoa', )
+$musical-notea-name: 'musical-notea'
+$musical-notea-x: 152px
+$musical-notea-y: 34px
+$musical-notea-offset-x: -152px
+$musical-notea-offset-y: -34px
+$musical-notea-width: 24px
+$musical-notea-height: 24px
+$musical-notea-total-width: 176px
+$musical-notea-total-height: 98px
+$musical-notea-image: '../img/sprite.png'
+$musical-notea: (152px, 34px, -152px, -34px, 24px, 24px, 176px, 98px, '../img/sprite.png', 'musical-notea', )
+$spritesheet-width: 176px
+$spritesheet-height: 98px
+$spritesheet-image: '../img/sprite.png'
+$spritesheet-sprites: ($chat, $edit, $employee, $employee2x, $logoa, $musical-notea, )
+$spritesheet: (176px, 98px, '../img/sprite.png', $spritesheet-sprites, )
+
+// The provided mixins are intended to be used with the array-like variables
+//
+// .icon-home
+//   @include sprite-width($icon-home)
+//
+// .icon-email
+//   @include sprite($icon-email)
+//
+// Example usage in HTML:
+//   `display: block` sprite:
+//   <div class="icon-home"></div>
+//
+// To change `display` (e.g. `display: inline-block;`), we suggest using a common CSS class:
+//   // CSS
+//   .icon {
+//     display: inline-block;
+//   }
+//
+//   // HTML
+//   <i class="icon icon-home"></i>
+@mixin sprite-width($sprite)
+  width: nth($sprite, 5)
+
+@mixin sprite-height($sprite)
+  height: nth($sprite, 6)
+
+@mixin sprite-position($sprite)
+  $sprite-offset-x: nth($sprite, 3)
+  $sprite-offset-y: nth($sprite, 4)
+  background-position: $sprite-offset-x  $sprite-offset-y
+
+@mixin sprite-image($sprite)
+  $sprite-image: nth($sprite, 9)
+  background-image: url(#{$sprite-image})
+
+@mixin sprite($sprite)
+  @include sprite-image($sprite)
+  @include sprite-position($sprite)
+  @include sprite-width($sprite)
+  @include sprite-height($sprite)
+
+// The `sprites` mixin generates identical output to the CSS template
+//   but can be overridden inside of SASS
+//
+// @include sprites($spritesheet-sprites)
+@mixin sprites($sprites)
+  @each $sprite in $sprites
+    $sprite-name: nth($sprite, 10)
+    .#{$sprite-name}
+      @include sprite($sprite)
